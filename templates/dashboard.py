@@ -3,13 +3,13 @@ import pandas as pd
 
 
 # Configuration Session
-YEAR = 2023 # current year for the dashboard
-P_YEAR = 2022 # previous year
-CITIES = ["Tokyo", "Yokohama", "Osaka"] # cities to look at specifically
-DATA = "https://raw.githubusercontent.com/danielphilip12/sales/refs/heads/main/data/sales.csv" 
+YEAR = 2025 # current year for the dashboard
+P_YEAR = 2024 # previous year
+CITIES = ["New York", "Dallas", "Chicago"] # cities to look at specifically
+DATA = "https://raw.githubusercontent.com/danielphilip12/Fake-Fruit-Sales/refs/heads/main/data/fruit_sales_fake.csv" 
 # location of the data to import
 
-st.title("Dashboard of Sales", anchor=False)
+st.title("Dashboard of Fruit Sales", anchor=False)
 # title of the page 
 
 # Caching Data Session
@@ -53,7 +53,7 @@ for i, city in enumerate(CITIES): # for each city and its index in the list
 left_col, right_col = st.columns(2)
 analysis_type = left_col.selectbox(
     label="Analysis by:",
-    options=["Month", "Product Category"],
+    options=["Month", "Fruit"],
     key="analysis_type",
 )
 selected_city = right_col.selectbox("Select a city:", CITIES)
@@ -66,10 +66,10 @@ visualization_year = P_YEAR if previous_year_toggle else YEAR
 st.write(f"**Sales for {visualization_year}**")
 
 # Filter data based on selection for visualization
-if analysis_type == "Product Category":
+if analysis_type == "Fruit":
     filtered_data = (
         df.query("city == @selected_city & year == @visualization_year")
-        .groupby("product_category", dropna=False)["sales_amount"]
+        .groupby("product_name", dropna=False)["sales_amount"]
         .sum()
         .reset_index()
     )
